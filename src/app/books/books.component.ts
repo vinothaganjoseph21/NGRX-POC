@@ -34,6 +34,7 @@ import { BooksState, HttpError } from './state/books.state';
 
       <h3>Unique Authors:</h3>
       <ul>
+      {{ (uniqueAuthors$ | async)?.length }} authors. <ul>
         <li *ngFor="let author of uniqueAuthors$ | async">
           {{ author }}
         </li>
