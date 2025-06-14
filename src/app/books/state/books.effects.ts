@@ -1,14 +1,15 @@
+// src/app/books/state/books.effects.ts
+
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {
-  BooksActionTypes,
-  LoadBooks,
-  LoadBooksSuccess,
-  LoadBooksFailure,
-} from './books.actions';
-import { BooksApiService } from '../../shared/services/books-api.service'; 
+  LoadBooks,        
+  LoadBooksSuccess, 
+  LoadBooksFailure, 
+} from './books.actions'; 
+import { BooksApiService } from '../../shared/services/books-api.service';
 import { HttpError } from './books.state';
 
 @Injectable()
@@ -20,10 +21,10 @@ export class BooksEffects {
 
   loadBooks$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BooksActionTypes.LOAD_BOOKS),
+      ofType(LoadBooks),
       switchMap(() =>
         this.booksApiService.getBooks().pipe(
-          map((books: any) => new LoadBooksSuccess(books)),
+          map((books: any) => LoadBooksSuccess({ payload: books })), 
           catchError((err: unknown) => {
             let httpError: HttpError;
 
@@ -34,7 +35,7 @@ export class BooksEffects {
             } else {
               httpError = { status: 0, message: 'An unknown error occurred.' };
             }
-            return of(new LoadBooksFailure(httpError));
+            return of(LoadBooksFailure({ payload: httpError }));
           })
         )
       )

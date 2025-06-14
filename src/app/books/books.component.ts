@@ -71,6 +71,6 @@ export class BooksComponent implements OnInit {
   }
 
   onLoadBooks(): void {
-    this.store.dispatch(new LoadBooks());
+    this.store.dispatch(LoadBooks());
   }
 }
